@@ -3407,7 +3407,7 @@ blockquote footer cite:before {
   position: absolute;
   top: calc(50% - 0.35rem);
   color: #ff5722;
-  content: '\f21c';
+  content: '0c1';
   font-style: normal;
   font-variant: normal;
   line-height: 1;
