@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="exporter-version" content="Evernote Mac 9.3.3 (459822)"/><meta name="author" content="Andy045"/><meta name="created" content="2020-05-20 07:04:51 +0000"/><meta name="source" content="desktop.mac"/><meta name="updated" content="2020-05-20 07:05:45 +0000"/><meta name="content-class" content="yinxiang.markdown"/><title>无标题</title><meta name="generator" content="Hexo 4.2.1"></head><body><div style="font-size: 14px; margin: 0; padding: 0; width: 100%;"><pre style="line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; margin: 2px 0 8px; background-color: #f5f7f8;"><code style="display: block; overflow-x: auto; background: #1e1e1e; line-height: 160%; box-sizing: content-box; border: 0; border-radius: 0; letter-spacing: -.3px; padding: 18px; color: #f4f4f4; white-space: pre-wrap;">apply plugin: <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'com.android.library'</span>
+apply plugin: <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'kotlin-android'</span>
+apply plugin: <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'kotlin-android-extensions'</span>
+apply plugin: <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'org.jetbrains.dokka-android'</span>
+apply plugin: <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'maven'</span>
+
+android {
+    compileSdkVersion <span style="color: #b8d7a3; line-height: 160%; box-sizing: content-box;">29</span>
+    buildToolsVersion <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">"29.0.3"</span>
+
+    compileOptions {
+        kotlinOptions.freeCompilerArgs += [<span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'-module-name'</span>, <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">"com.andy.basic.ui"</span>]
+    }
+
+    defaultConfig {
+        minSdkVersion <span style="color: #b8d7a3; line-height: 160%; box-sizing: content-box;">19</span>
+        targetSdkVersion <span style="color: #b8d7a3; line-height: 160%; box-sizing: content-box;">29</span>
+        versionCode <span style="color: #b8d7a3; line-height: 160%; box-sizing: content-box;">1</span>
+        versionName <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">"1.0"</span>
+
+        testInstrumentationRunner <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">"androidx.test.runner.AndroidJUnitRunner"</span>
+        consumerProguardFiles <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'consumer-rules.pro'</span>
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled <span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">false</span>
+            proguardFiles getDefaultProguardFile(<span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'proguard-android-optimize.txt'</span>), <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'proguard-rules.pro'</span>
+        }
+    }
+
+}
+
+<span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">dependencies</span> {
+    implementation <span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">fileTree</span>(dir: <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'libs'</span>, <span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">include</span>: [<span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'*.jar'</span>])
+    implementation <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"</span>
+    implementation <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'androidx.appcompat:appcompat:1.1.0'</span>
+    implementation <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'androidx.core:core-ktx:1.2.0'</span>
+    testImplementation <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'junit:junit:4.12'</span>
+    androidTestImplementation <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'androidx.test.ext:junit:1.1.1'</span>
+    androidTestImplementation <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'androidx.test.espresso:espresso-core:3.2.0'</span>
+}
+
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">// ========================================</span>
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">// 发布相关任务</span>
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">// ========================================</span>
+
+uploadArchives {
+    configuration = <span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">configurations</span>.archives
+    <span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">repositories</span> {
+        mavenDeployer {
+            repository(url: MAVEN_URL_RELEASE) {
+                authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)
+            }
+            pom.<span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">project</span> {
+                version <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">"$android.defaultConfig.versionName"</span>
+                artifactId PROJECT_NAME
+                groupId PACKAGE_NAME
+                packaging TYPE
+                <span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">description</span> <span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">DESCRIPTION</span>
+            }
+        }
+    }
+}
+
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//uploadArchives {</span>
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//    configuration = configurations.archives</span>
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//    repositories {</span>
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//        mavenDeployer {</span>
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//            repository(url: MAVEN_URL_SNAPSHOT) {</span>
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//                authentication(userName: NEXUS_USERNAME, password: NEXUS_PASSWORD)</span>
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//            }</span>
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//            pom.project {</span>
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//                version "$android.defaultConfig.versionName-SNAPSHOT"</span>
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//                artifactId PROJECT_NAME</span>
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//                groupId PACKAGE_NAME</span>
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//                packaging TYPE</span>
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//                description DESCRIPTION</span>
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//            }</span>
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//        }</span>
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//    }</span>
+<span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//}</span>
+
+tasks.withType(JavaCompile) { <span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//指定编码</span>
+    <span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">options</span>.encoding = <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">"UTF-8"</span>
+}
+
+<span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">task</span> sourcesJar(type: Jar) { <span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//打包源码</span>
+    <span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">group</span> = <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'maven'</span>
+    <span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">from</span> android.<span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">sourceSets</span>.main.java.srcDirs
+    classifier = <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'sources'</span>
+}
+
+<span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">task</span> javadoc(type: Javadoc) {
+    failOnError <span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">false</span>
+    <span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">source</span> = android.<span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">sourceSets</span>.main.java.sourceFiles
+    <span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">classpath</span> += <span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">project</span>.files(android.getBootClasspath().<span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">join</span>(<span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">File</span>.pathSeparator))
+    <span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">classpath</span> += <span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">configurations</span>.<span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">compile</span>
+}
+
+<span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">task</span> javadocJar(type: Jar, dependsOn: javadoc) { <span style="color: #57a64a; font-style: italic; line-height: 160%; box-sizing: content-box;">//制作文档(Javadoc)</span>
+    <span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">group</span> = <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'maven'</span>
+    classifier = <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">'javadoc'</span>
+    <span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">from</span> javadoc.<span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">destinationDir</span>
+}
+
+<span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">task</span> dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
+    outputFormat = <span style="color: #d69d85; line-height: 160%; box-sizing: content-box;">"javadoc"</span>
+    outputDirectory = javadoc.<span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">destinationDir</span>
+}
+
+<span style="color: #569cd6; line-height: 160%; box-sizing: content-box;">artifacts</span> {
+    archives sourcesJar
+    archives javadocJar
+}
+
+</code></pre>
+</div><center style="display:none !important;visibility:collapse !important;height:0 !important;white-space:nowrap;width:100%;overflow:hidden">%60%60%60%20gradle%20%0Aapply%20plugin%3A%20'com.android.library'%0Aapply%20plugin%3A%20'kotlin-android'%0Aapply%20plugin%3A%20'kotlin-android-extensions'%0Aapply%20plugin%3A%20'org.jetbrains.dokka-android'%0Aapply%20plugin%3A%20'maven'%0A%0Aandroid%20%7B%0A%20%20%20%20compileSdkVersion%2029%0A%20%20%20%20buildToolsVersion%20%2229.0.3%22%0A%0A%20%20%20%20compileOptions%20%7B%0A%20%20%20%20%20%20%20%20kotlinOptions.freeCompilerArgs%20%2B%3D%20%5B'-module-name'%2C%20%22com.andy.basic.ui%22%5D%0A%20%20%20%20%7D%0A%0A%20%20%20%20defaultConfig%20%7B%0A%20%20%20%20%20%20%20%20minSdkVersion%2019%0A%20%20%20%20%20%20%20%20targetSdkVersion%2029%0A%20%20%20%20%20%20%20%20versionCode%201%0A%20%20%20%20%20%20%20%20versionName%20%221.0%22%0A%0A%20%20%20%20%20%20%20%20testInstrumentationRunner%20%22androidx.test.runner.AndroidJUnitRunner%22%0A%20%20%20%20%20%20%20%20consumerProguardFiles%20'consumer-rules.pro'%0A%20%20%20%20%7D%0A%0A%20%20%20%20buildTypes%20%7B%0A%20%20%20%20%20%20%20%20release%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20minifyEnabled%20false%0A%20%20%20%20%20%20%20%20%20%20%20%20proguardFiles%20getDefaultProguardFile('proguard-android-optimize.txt')%2C%20'proguard-rules.pro'%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%0A%7D%0A%0Adependencies%20%7B%0A%20%20%20%20implementation%20fileTree(dir%3A%20'libs'%2C%20include%3A%20%5B'*.jar'%5D)%0A%20%20%20%20implementation%20%22org.jetbrains.kotlin%3Akotlin-stdlib-jdk7%3A%24kotlin_version%22%0A%20%20%20%20implementation%20'androidx.appcompat%3Aappcompat%3A1.1.0'%0A%20%20%20%20implementation%20'androidx.core%3Acore-ktx%3A1.2.0'%0A%20%20%20%20testImplementation%20'junit%3Ajunit%3A4.12'%0A%20%20%20%20androidTestImplementation%20'androidx.test.ext%3Ajunit%3A1.1.1'%0A%20%20%20%20androidTestImplementation%20'androidx.test.espresso%3Aespresso-core%3A3.2.0'%0A%7D%0A%0A%2F%2F%20%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0A%2F%2F%20%E5%8F%91%E5%B8%83%E7%9B%B8%E5%85%B3%E4%BB%BB%E5%8A%A1%0A%2F%2F%20%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0A%0AuploadArchives%20%7B%0A%20%20%20%20configuration%20%3D%20configurations.archives%0A%20%20%20%20repositories%20%7B%0A%20%20%20%20%20%20%20%20mavenDeployer%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20repository(url%3A%20MAVEN_URL_RELEASE)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20authentication(userName%3A%20NEXUS_USERNAME%2C%20password%3A%20NEXUS_PASSWORD)%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20pom.project%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20version%20%22%24android.defaultConfig.versionName%22%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20artifactId%20PROJECT_NAME%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20groupId%20PACKAGE_NAME%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20packaging%20TYPE%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20description%20DESCRIPTION%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%7D%0A%7D%0A%0A%2F%2FuploadArchives%20%7B%0A%2F%2F%20%20%20%20configuration%20%3D%20configurations.archives%0A%2F%2F%20%20%20%20repositories%20%7B%0A%2F%2F%20%20%20%20%20%20%20%20mavenDeployer%20%7B%0A%2F%2F%20%20%20%20%20%20%20%20%20%20%20%20repository(url%3A%20MAVEN_URL_SNAPSHOT)%20%7B%0A%2F%2F%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20authentication(userName%3A%20NEXUS_USERNAME%2C%20password%3A%20NEXUS_PASSWORD)%0A%2F%2F%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%2F%2F%20%20%20%20%20%20%20%20%20%20%20%20pom.project%20%7B%0A%2F%2F%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20version%20%22%24android.defaultConfig.versionName-SNAPSHOT%22%0A%2F%2F%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20artifactId%20PROJECT_NAME%0A%2F%2F%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20groupId%20PACKAGE_NAME%0A%2F%2F%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20packaging%20TYPE%0A%2F%2F%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20description%20DESCRIPTION%0A%2F%2F%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%2F%2F%20%20%20%20%20%20%20%20%7D%0A%2F%2F%20%20%20%20%7D%0A%2F%2F%7D%0A%0Atasks.withType(JavaCompile)%20%7B%20%2F%2F%E6%8C%87%E5%AE%9A%E7%BC%96%E7%A0%81%0A%20%20%20%20options.encoding%20%3D%20%22UTF-8%22%0A%7D%0A%0Atask%20sourcesJar(type%3A%20Jar)%20%7B%20%2F%2F%E6%89%93%E5%8C%85%E6%BA%90%E7%A0%81%0A%20%20%20%20group%20%3D%20'maven'%0A%20%20%20%20from%20android.sourceSets.main.java.srcDirs%0A%20%20%20%20classifier%20%3D%20'sources'%0A%7D%0A%0Atask%20javadoc(type%3A%20Javadoc)%20%7B%0A%20%20%20%20failOnError%20false%0A%20%20%20%20source%20%3D%20android.sourceSets.main.java.sourceFiles%0A%20%20%20%20classpath%20%2B%3D%20project.files(android.getBootClasspath().join(File.pathSeparator))%0A%20%20%20%20classpath%20%2B%3D%20configurations.compile%0A%7D%0A%0Atask%20javadocJar(type%3A%20Jar%2C%20dependsOn%3A%20javadoc)%20%7B%20%2F%2F%E5%88%B6%E4%BD%9C%E6%96%87%E6%A1%A3(Javadoc)%0A%20%20%20%20group%20%3D%20'maven'%0A%20%20%20%20classifier%20%3D%20'javadoc'%0A%20%20%20%20from%20javadoc.destinationDir%0A%7D%0A%0Atask%20dokkaJavadoc(type%3A%20org.jetbrains.dokka.gradle.DokkaTask)%20%7B%0A%20%20%20%20outputFormat%20%3D%20%22javadoc%22%0A%20%20%20%20outputDirectory%20%3D%20javadoc.destinationDir%0A%7D%0A%0Aartifacts%20%7B%0A%20%20%20%20archives%20sourcesJar%0A%20%20%20%20archives%20javadocJar%0A%7D%0A%0A%60%60%60</center></body></html>
